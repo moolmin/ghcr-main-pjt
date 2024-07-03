@@ -1,0 +1,38 @@
+plugins {
+	id 'java'
+	id 'application'
+	id 'org.springframework.boot' version '3.0.0'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'org.ej31'
+version = '1.0-SNAPSHOT'
+
+repositories {
+	mavenCentral()
+	maven {
+		url = uri("https://maven.pkg.github.com/moolmin/ghcr-library-pjt")
+		credentials {
+			username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+			password = project.findProperty("gpr.token") ?: System.getenv("TOKEN")
+		}
+	}
+}
+
+dependencies {
+	implementation 'org.ej31:ghcr-library-pjt:1.2-SNAPSHOT'
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation platform('org.junit:junit-bom:5.10.0')
+	testImplementation 'org.junit.jupiter:junit-jupiter'
+	testRuntimeOnly 'org.junit.vintage:junit-vintage-engine' // Add this if you have older JUnit 4 tests
+}
+
+test {
+	useJUnitPlatform()
+}
+
+application {
+	mainClassName = 'org.moolmin.Main'
+}
